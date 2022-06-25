@@ -7,7 +7,11 @@ import { Component } from "@angular/core";
 })
 
 export class CreatePostComponent {
+  enteredValue = ''
+  newPost = 'NO CONTENT'
+
   onAddPost(){
-    alert('post Added!')
+
+    this.newPost = this.enteredValue;
   }
 }
