@@ -1,4 +1,8 @@
 import { Component } from "@angular/core";
+import { NgForm } from "@angular/forms";
+
+import { Post } from "../post.model";
+import { PostsService } from "../posts.service";
 
 
 @Component({
@@ -8,11 +12,16 @@ import { Component } from "@angular/core";
 })
 
 export class CreatePostComponent {
-  enteredValue = ''
-  newPost = 'NO CONTENT'
 
-  onAddPost(){
+  // @Output() postCreated = new EventEmitter<Post>();
 
-    this.newPost = this.enteredValue;
+  constructor(public postsService: PostsService ){}
+
+  onAddPost(form: NgForm){
+
+    if(form.invalid) return;
+
+    this.postsService.addPost(form.value.title, form.value.content);
+    form.resetForm();
   }
 }
