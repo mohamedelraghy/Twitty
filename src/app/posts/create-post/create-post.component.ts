@@ -15,9 +15,9 @@ import { PostsService } from "../posts.service";
 export class CreatePostComponent implements OnInit {
 
   // @Output() postCreated = new EventEmitter<Post>();
+  post: Post;
   private mode = 'create';
   private postId: string| null = null;
-  private post: Post;
 
   constructor(public postsService: PostsService, public route: ActivatedRoute){}
 
@@ -33,11 +33,14 @@ export class CreatePostComponent implements OnInit {
       }
     });
   }
-  onAddPost(form: NgForm){
+  onSavePost(form: NgForm){
 
     if(form.invalid) return;
-
-    this.postsService.addPost(form.value.title, form.value.content);
+    if(this.mode === 'create'){
+      this.postsService.addPost(form.value.title, form.value.content);
+    }else{
+      this.postsService.updatePost(this.postId, form.value.title, form.value.content)
+    }
     form.resetForm();
   }
 }

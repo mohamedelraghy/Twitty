@@ -4,6 +4,8 @@ import { Subject } from 'rxjs'
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { transition } from '@angular/animations';
+import { identifierName } from '@angular/compiler';
+import { response } from 'express';
 
 
 @Injectable({providedIn: 'root'})
@@ -50,6 +52,18 @@ export class PostsService {
 
   getPost(id: string){
     return {...this.posts.find(p => p.id === id)};
+  }
+
+  updatePost(postId: string, title: string, content: string){
+    const post: Post = {id: postId, title: title, content: content};
+    this.http.put('http://localhost:3000/api/posts/' + postId, post)
+      .subscribe(response =>{
+        const updatedPosts = [...this.posts];
+        const oldPostIndex = updatedPosts.findIndex(p => p.id === post.id);
+        updatedPosts[oldPostIndex] = post;
+        this.posts = updatedPosts;
+        this.postsUpdated.next([...this.posts]);
+      });
   }
 
   deletePost(postId: string){
