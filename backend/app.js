@@ -44,7 +44,7 @@ app.post('/api/posts', (req, res, next) =>{
 });
 
 
-app.use('/api/posts', (req, res, next) => {
+app.get('/api/posts', (req, res, next) => {
 
   Post.find()
     .then(docs => {
@@ -54,5 +54,7 @@ app.use('/api/posts', (req, res, next) => {
     });
   });
 });
+
+
 
 module.exports = app;
