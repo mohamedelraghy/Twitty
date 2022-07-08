@@ -16,6 +16,7 @@ export class CreatePostComponent implements OnInit {
 
   // @Output() postCreated = new EventEmitter<Post>();
   post: Post;
+  isLoading = false;
   private mode = 'create';
   private postId: string| null = null;
 
@@ -26,8 +27,10 @@ export class CreatePostComponent implements OnInit {
       if(paramMap.has('postId')){
         this.mode = 'edit';
         this.postId = paramMap.get('postId');
+        this.isLoading = true;
         this.postsService.getPost(this.postId)
-          .subscribe(postData =>{
+        .subscribe(postData =>{
+            this.isLoading = false;
             this.post = {id: postData._id, title: postData.title, content: postData.content};
           });
       }else{
@@ -39,6 +42,7 @@ export class CreatePostComponent implements OnInit {
   onSavePost(form: NgForm){
 
     if(form.invalid) return;
+    this.isLoading = true;
     if(this.mode === 'create'){
       this.postsService.addPost(form.value.title, form.value.content);
     }else{
