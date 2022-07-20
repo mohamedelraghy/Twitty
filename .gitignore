@@ -5,6 +5,7 @@
 /tmp
 /out-tsc
 /bazel-out
+/backend
 
 # Node
 /node_modules
@@ -41,4 +42,3 @@ testem.log
 .DS_Store
 Thumbs.db
 
-/backend/images
