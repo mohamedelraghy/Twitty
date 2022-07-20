@@ -47,17 +47,17 @@ export class PostsService {
     postData.append("image", image, title);
 
     this.http
-      .post<{ messege: string, postId: string}>(
+      .post<{ messege: string, post: Post}>(
         'http://localhost:3000/api/posts',
          postData
       )
       .subscribe((responseData) =>{
         const post: Post = {
-          id: responseData.postId,
+          id: responseData.post.id,
           title: title,
           content: content
         };
-        
+
         this.posts.push(post);
         this.postsUpdated.next([...this.posts]);
         this.router.navigate(['/']);
