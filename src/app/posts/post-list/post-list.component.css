@@ -7,15 +7,12 @@ mat-spinner{
   margin: auto;
 }
 
-.info-text {
-    text-align: center;
+
+
+.post-image {
+  width: 100%;
 }
 
-.image-preview{
-  height: 5rem;
-  margin: 1rem 0;
-}
-
-.image-preview img {
-  height: 100%;
+.post-image img {
+  width: 100%;
 }
