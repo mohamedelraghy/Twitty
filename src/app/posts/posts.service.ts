@@ -26,7 +26,8 @@ export class PostsService {
           return {
             title : post.title,
             content: post.content,
-            id: post._id
+            id: post._id,
+            imagePath: post.imagePath
           }
         })
       }))
@@ -55,7 +56,8 @@ export class PostsService {
         const post: Post = {
           id: responseData.post.id,
           title: title,
-          content: content
+          content: content,
+          imagePath: responseData.post.imagePath,
         };
 
         this.posts.push(post);
@@ -69,7 +71,7 @@ export class PostsService {
   }
 
   updatePost(postId: string, title: string, content: string){
-    const post: Post = {id: postId, title: title, content: content};
+    const post: Post = {id: postId, title: title, content: content, imagePath: null};
     this.http.put('http://localhost:3000/api/posts/' + postId, post)
       .subscribe(response =>{
         const updatedPosts = [...this.posts];
