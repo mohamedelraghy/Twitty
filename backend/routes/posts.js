@@ -46,8 +46,17 @@ router.post('', multer({storage: storage}).single("image") ,(req, res, next) =>{
 
 
 router.get('', (req, res, next) => {
+  const pageSize = +req.query.pagesize;
+  const currentpage = +req.query.page;
+  const postQuery = Post.find();
 
-  Post.find()
+  if(pageSize && currentpage){
+    postQuery
+      .skip(pageSize * (currentpage - 1))
+      .limit(pageSize)
+  }
+
+  postQuery.find()
     .then(docs => {
       res.status(200).json({
         messege: "Posts fetched succesfully!",
@@ -80,7 +89,7 @@ router.put('/:id', multer({storage: storage}).single("image"), (req, res, next) 
     connect: req.body.connect,
     imagePath: imagePath
   });
-  
+
   Post.updateOne({_id: req.params.id}, post).then( result => {
     res.status(200).json({
       messege: "post update successfully"
