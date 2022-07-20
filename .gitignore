@@ -5,7 +5,7 @@
 /tmp
 /out-tsc
 /bazel-out
-.editorconfig
+/images
 
 # Node
 /node_modules
