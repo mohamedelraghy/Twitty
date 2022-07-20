@@ -23,9 +23,9 @@ const storage = multer.diskStorage({
     const ext = MIME_TYPE_MAP[file.mimetype];
     cb(null, name + '-' + Date.now() + '.' + ext);
   }
-}); 
+});
 
-router.post('', multer(storage).single("image") ,(req, res, next) =>{
+router.post('', multer({storage: storage}).single("image") ,(req, res, next) =>{
   const post = new Post({
     title: req.body.title,
     content: req.body.content
@@ -37,8 +37,6 @@ router.post('', multer(storage).single("image") ,(req, res, next) =>{
     postId: createdPost._id,
     });
   });
-
-
 });
 
 
