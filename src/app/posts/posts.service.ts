@@ -12,30 +12,36 @@ import { response } from 'express';
 @Injectable({providedIn: 'root'})
 export class PostsService {
   private posts: Post[] = [];
-  private postsUpdated = new Subject<Post[]>();
+  private postsUpdated = new Subject<{ posts: Post[], postCount: number}>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
   getPosts(postsPerPage: number, currentPage: number){
     const queryPrams = `?pagesize=${postsPerPage}&page=${currentPage}`
     this.http
-      .get<{messege : string; posts: any}>(
-        'http://localhost:3000/api/posts' + queryPrams
-      )
-      .pipe(map((postData) => {
-        return postData.posts.map((post: any) => {
+      .get<{messege : string; posts: any, maxPosts: number}>('http://localhost:3000/api/posts' + queryPrams)
+      .pipe(
+        map(postData => {
           return {
-            title : post.title,
-            content: post.content,
-            id: post._id,
-            imagePath: post.imagePath
+            posts: postData.posts.map(post => {
+            return {
+              title : post.title,
+              content: post.content,
+              id: post._id,
+              imagePath: post.imagePath
+            };
+          }),
+            maxPosts: postData.maxPosts
           }
         })
-      }))
-      .subscribe((tarnsPosts) => {
-        this.posts = tarnsPosts;
-        this.postsUpdated.next([...this.posts]);
-    });
+      )
+      .subscribe( tarnsPostData => {
+        this.posts = tarnsPostData.posts;
+        this.postsUpdated.next({
+          posts: [...this.posts],
+          postCount: tarnsPostData.maxPosts
+        });
+      });
   }
 
   getPostUpdateListner(){
