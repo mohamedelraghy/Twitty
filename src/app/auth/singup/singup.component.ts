@@ -5,7 +5,7 @@ import { NgForm } from "@angular/forms";
   templateUrl: './singup.component.html',
   styleUrls: ['./singup.component.css']
 })
-export class LoginComponent {
+export class SingupComponent {
   isLoading = false;
   onLogin(form: NgForm){
     console.log(form.value);

@@ -20,6 +20,7 @@ import { CreatePostComponent } from './posts/create-post/create-post.component';
 import { HeaderComponent } from './header/header.component';
 import { PostListComponent } from './posts/post-list/post-list.component';
 import { LoginComponent } from './auth/login/login.component';
+import { SingupComponent } from './auth/singup/singup.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { LoginComponent } from './auth/login/login.component';
     CreatePostComponent,
     HeaderComponent,
     PostListComponent,
-    LoginComponent
+    LoginComponent,
+    SingupComponent
   ],
   imports: [
     BrowserModule,
