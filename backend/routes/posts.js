@@ -96,11 +96,12 @@ router.put('/:id', checkAuth, multer({storage: storage}).single("image"), (req, 
     _id: req.body.id,
     title: req.body.title,
     connect: req.body.connect,
-    imagePath: imagePath
+    imagePath: imagePath,
+    creator: req.userData.userId,
   });
 
   Post.updateOne({_id: req.params.id, creator: req.userData.userId }, post).then( result => {
-    
+
     if(result.modifiedCount > 0)
       res.status(200).json({ messege: "post update successfully" });
     else
