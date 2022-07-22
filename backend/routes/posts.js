@@ -99,19 +99,22 @@ router.put('/:id', checkAuth, multer({storage: storage}).single("image"), (req, 
     imagePath: imagePath
   });
 
-  Post.updateOne({_id: req.params.id}, post).then( result => {
-    res.status(200).json({
-      messege: "post update successfully"
-    });
+  Post.updateOne({_id: req.params.id, creator: req.userData.userId }, post).then( result => {
+    
+    if(result.modifiedCount > 0)
+      res.status(200).json({ messege: "post update successfully" });
+    else
+      res.status(401).json({ messege: "Not Authorized!" });
   })
 });
 
 router.delete('/:id', checkAuth, (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id}).then( result => {
-    console.log(result);
-    res.status(200).json({
-      messege: "post deleted successfully"
-    });
+  Post.deleteOne({ _id: req.params.id, creator: req.userData.userId }).then( result => {
+
+    if(result.deletedCount > 0)
+      res.status(200).json({ messege: "Deletion successfully" });
+    else
+      res.status(401).json({ messege: "Not Authorized!" });
   });
 });
 
