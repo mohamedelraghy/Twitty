@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Post } from './post.model';
 import { Subject } from 'rxjs'
 import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { transition } from '@angular/animations';
-import { identifierName } from '@angular/compiler';
-import { response } from 'express';
 
+import { environment } from '../../environments/environment';
+import { Post } from './post.model';
+
+
+const BACKEND_URL = environment.apiUrl + '/posts/';
 
 @Injectable({providedIn: 'root'})
 export class PostsService {
@@ -19,7 +20,7 @@ export class PostsService {
   getPosts(postsPerPage: number, currentPage: number){
     const queryPrams = `?pagesize=${postsPerPage}&page=${currentPage}`
     this.http
-      .get<{messege : string; posts: any, maxPosts: number}>('http://localhost:3000/api/posts' + queryPrams)
+      .get<{messege : string; posts: any, maxPosts: number}>(BACKEND_URL + queryPrams)
       .pipe(
         map(postData => {
           return {
@@ -57,7 +58,7 @@ export class PostsService {
 
     this.http
       .post<{ messege: string, post: Post}>(
-        'http://localhost:3000/api/posts',
+        BACKEND_URL,
          postData
       )
       .subscribe(responseData =>{
@@ -72,7 +73,7 @@ export class PostsService {
       content: string,
       imagePath: string,
       creator: string
-    }>("http://localhost:3000/api/posts/" + id);
+    }>(BACKEND_URL + id);
   }
 
   updatePost(postId: string, title: string, content: string, image: File | string){
@@ -95,14 +96,13 @@ export class PostsService {
     }
 
     this.http
-      .put('http://localhost:3000/api/posts/' + postId, postData)
+      .put(BACKEND_URL + postId, postData)
       .subscribe(response =>{
-
         this.router.navigate(['/']);
       });
   }
 
   deletePost(postId: string){
-      return this.http.delete('http://localhost:3000/api/posts/' + postId);
+      return this.http.delete(BACKEND_URL + postId);
   }
 }
