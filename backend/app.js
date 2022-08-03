@@ -1,15 +1,15 @@
 const path = require('path');
 const express = require('express');
-// 3lbOUg8A879Ig4xQ
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const postRoutes = require('./routes/posts');
 const userRoutes = require('./routes/user');
+const { env } = require('process');
 
 const app = express();
 
-mongoose.connect("mongodb+srv://Moelraghy:3lbOUg8A879Ig4xQ@messageme.c12pk.mongodb.net/node-angular?w=majority")
+mongoose.connect("mongodb+srv://Moelraghy:"+ process.env.MONGO_ATLAS_PW +"@messageme.c12pk.mongodb.net/node-angular?w=majority")
   .then(() => {
     console.log('DB Connected Successfully');
   }).catch(() => {
